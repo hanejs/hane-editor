@@ -22,7 +22,7 @@ let loaders = [
   },
   {
     test: /\.css$/,
-    loaders: [ 'style-loader', 'css-loader?root=' + rootPath ],
+    loaders: [ 'style-loader', 'css-loader?root=' + publicPath ],
   },
 ]
 
@@ -30,7 +30,7 @@ let plugins = [
   new webpack.optimize.OccurrenceOrderPlugin(),
   new HtmlWebpackPlugin({
     filename: DEBUG ? 'index.html' : '../index.html',
-    template: 'views/index.html',
+    template: './public/views/index.html',
     inject: true,
   }),
 ]
@@ -41,14 +41,14 @@ if (DEBUG) {
     {
       test: /\.es$/,
       exclude: /(node_modules|bower_components)/,
-      loaders: ['react-hot-loader', 'babel-loader?' + babelQueries.join(',')],
+      loaders: [ 'react-hot-loader', 'babel-loader?' + babelQueries.join(',') ],
       // loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=stage-0,presets[]=react'],
     },
     {
       test: /\.scss$/,
       loaders: [
         'style-loader',
-        'css-loader?sourceMap&root=' + rootPath,
+        'css-loader?sourceMap&root=' + publicPath,
         //'postcss',
         'sass-loader?sourceMap&sourceMapContents',
       ],
@@ -70,7 +70,7 @@ if (DEBUG) {
     },
     {
       test: /\.scss/,
-      loaders: extractStyle.extract([ 'css-loader?root=' + rootPath, 'sass-loader' ]),
+      loaders: extractStyle.extract([ 'css-loader?root=' + publicPath, 'sass-loader' ]),
     },
   ]
   plugins = [
@@ -87,8 +87,8 @@ if (DEBUG) {
 let webpackConfig = {
   entry: [
     // 'webpack-hot-middleware/client',
-    './src/index',
-    './style/main',
+    './public/src/index',
+    './public/style/main',
   ],
   output: {
     path: path.resolve(publicPath, 'assets'),
